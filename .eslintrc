@@ -1,0 +1,15 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "no-param-reassign": 0,
+    "no-console": 0,
+    "func-names": 0,
+    "import/no-dynamic-require": 0,
+    "quotes": 0,
+    "prefer-destructuring": 0,
+    "quote-props": 0,
+    "camelcase": 0,
+    "object-shorthand": 0,
+    "no-return-await": 0,
+  }
+}
