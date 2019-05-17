@@ -7,7 +7,7 @@ const sequelize = new Sequelize(config.mysql.database, config.mysql.username, co
   port: config.mysql.port,
   dialect: 'mysql',
   logging: false, // Disable logging
-  operatorsAliases: false, // Disable aliases,
+  operatorsAliases: false, // Disable aliases
 });
 
 sequelize.authenticate();
