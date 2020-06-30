@@ -14,7 +14,7 @@
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "express-validation": "^1.0.2",
     "joi": "^13.0.2",
     "jsonwebtoken": "^8.1.0",
