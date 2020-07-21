@@ -1,4 +1,4 @@
-# Node ES6 JWT
+# Node JWT
 
 ![](https://img.shields.io/badge/node-success-brightgreen.svg)
 ![](https://img.shields.io/badge/test-success-brightgreen.svg)
@@ -20,7 +20,7 @@
 # File structure
 
 ```
-node-es6-jwt/
+node-jwt/
 │
 ├── api/
 │   ├── controllers/
@@ -97,13 +97,13 @@ I have a great introduction to JWT in one of my other repositories, click [here]
 3. Fork this repository and clone it
   
   ```
-  $ git clone https://github.com/<your-user>/node-es6-jwt
+  $ git clone https://github.com/<your-user>/node-jwt
   ```
   
 4. Navigate into the folder  
 
   ```
-  $ cd node-es6-jwt
+  $ cd node-jwt
   ```
   
 5. Install NPM dependencies

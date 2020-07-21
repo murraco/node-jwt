@@ -1,7 +1,7 @@
 {
-  "name": "node-es6-jwt",
+  "name": "node-jwt",
   "version": "1.0.0",
-  "description": "Node ES6 JWT",
+  "description": "Node JWT",
   "author": "Mauricio Urraco <mauriurraco@gmail.com>",
   "homepage": "https://github.com/murraco/",
   "license": "MIT",
