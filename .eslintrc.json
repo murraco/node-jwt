@@ -13,6 +13,6 @@
 	"rules": {
 		"no-console": 0,
 		"newline-per-chained-call": 0,
-		"max-len": 150
+		"max-len": 0
 	}
 }

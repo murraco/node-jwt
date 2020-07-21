@@ -114,12 +114,12 @@ $ npm install
 6. Make sure you have a MySQL DB up and running, if you don't, using docker is the easiest way
 
 ```
-$ docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root --name=mysql -d mysql
+$ docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
 ```
 Login into the container, update the root user and create databases
 
 ```
-$ docker exec -it mysql mysql -uroot
+$ docker exec -it <CONTAINER ID> mysql -uroot -proot
 $ ALTER USER root IDENTIFIED WITH mysql_native_password BY 'root';
 $ CREATE DATABASE jwt;
 $ CREATE DATABASE jwt_dev;
@@ -171,6 +171,19 @@ curl -X POST 'http://localhost:8000/auth?username=admin&password=admin'
 Copy the token and send a request to get all current users:
 ```
 curl -X GET http://localhost:8000/users -H 'Authorization: Bearer <JWT_TOKEN>
+```
+
+12. And that's it, congrats! You should get a similar response to this one, meaning that you're now authenticated
+
+```json
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "createdAt": "2020-07-21T21:42:01.000Z",
+    "updatedAt": "2020-07-21T21:52:05.000Z"
+  }
+]
 ```
 
 # Contribution
