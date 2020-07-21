@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+
 const config = require('./env');
 
 // Set up the config

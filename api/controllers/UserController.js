@@ -39,8 +39,8 @@ function update(req, res) {
 function list(req, res) {
   const { offset = 0, limit = 50 } = req.query;
   User.findAll({
-    offset: offset,
-    limit: limit,
+    offset,
+    limit,
     attributes: { exclude: ['password', 'refresh_token'] },
   }).then((users) => {
     res.status(200).json(users);

@@ -1,4 +1,5 @@
 const app = require('./config/express');
+
 const User = require('./api/models/User');
 
 // { force: true } will drop the table if it already exists

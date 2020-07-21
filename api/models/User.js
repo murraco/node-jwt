@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const uuidv1 = require('uuid/v1');
+
 const { sequelize, Sequelize } = require('../../config/sequelize');
 
 const User = sequelize.define('User', {
@@ -14,7 +15,7 @@ const User = sequelize.define('User', {
     unique: {
       args: true,
       msg: 'Username already exists',
-    }
+    },
   },
   password: {
     type: Sequelize.STRING,
