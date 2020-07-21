@@ -70,77 +70,108 @@ I have a great introduction to JWT in one of my other repositories, click [here]
 
 1. Make sure you have the latest stable version of Node.js installed
 
-  ```
-  $ sudo npm cache clean -f
-  $ sudo npm install -g n
-  $ sudo n stable
-  ```
+```
+$ sudo npm cache clean -f
+$ sudo npm install -g n
+$ sudo n stable
+```
   
 2. Configure your database and jsonwebtoken in `config/env`. E.g.:
 
-  ```javascript
-  module.exports = {
-    mysql: {
-      host: 'localhost',
-      port: 3306,
-      database: 'jwt_dev',
-      username: 'root',
-      password: 'root',
-    },
-    jwt: {
-      jwtSecret: '$eCrEt',
-      jwtDuration: '2 hours',
-    }
-  };
-  ```
+```javascript
+module.exports = {
+  mysql: {
+    host: 'localhost',
+    port: 3306,
+    database: 'jwt_dev',
+    username: 'root',
+    password: 'root',
+  },
+  jwt: {
+    jwtSecret: '$eCrEt',
+    jwtDuration: '2 hours',
+  },
+};
+```
 
 3. Fork this repository and clone it
   
-  ```
-  $ git clone https://github.com/<your-user>/node-jwt
-  ```
+```
+$ git clone https://github.com/<your-user>/node-jwt
+```
   
 4. Navigate into the folder  
 
-  ```
-  $ cd node-jwt
-  ```
-  
+```
+$ cd node-jwt
+```
 5. Install NPM dependencies
 
-  ```
-  $ npm install
-  ```
+```
+$ npm install
+```
   
-6. Run the project
+6. Make sure you have a MySQL DB up and running, if you don't, using docker is the easiest way
 
-  ```
-  $ node index.js
-  ```
-  
-7. Or use `nodemon` for live-reload
-  
-  ```
-  $ npm start
-  ```
-  
-  > `npm start` will run `nodemon index.js`.
-  
-8. Navigate to `http://localhost:8000/api-status` in your browser to check you're seing the following response
+```
+$ docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root --name=mysql -d mysql
+```
+Login into the container, update the root user and create databases
 
-  ```javascript
-  { "status": "ok" }
-  ```
+```
+$ docker exec -it mysql mysql -uroot
+$ ALTER USER root IDENTIFIED WITH mysql_native_password BY 'root';
+$ CREATE DATABASE jwt;
+$ CREATE DATABASE jwt_dev;
+$ CREATE DATABASE jwt_test;
+```
+  
+7. Run the project
 
-  > The port can be changed by the setting the environment variable `PORT`
+```
+$ node index.js
+```
+  
+8. Or use `nodemon` for live-reload
+  
+```
+$ npm start
+```
 
-9. If you want to execute the tests
+> `npm start` will run `nodemon index.js`.
+  
+9. Navigate to `http://localhost:8000/api-status` in your browser to check you're seing the following response
+
+```javascript
+{ "status": "ok" }
+```
+
+> The port can be changed by the setting the environment variable `PORT`
+
+10. If you want to execute the tests
 
 ```
 $ npm test
 ```
 
 > `npm test` will run `mocha`.
+
+11. If you want to test it manually you can do it with the following commands
+
+Register a new user:
+```
+curl -X POST 'http://localhost:8000/users?username=admin2&password=admin'
+```
+
+Sign in with the new user credentials:
+```
+curl -X POST 'http://localhost:8000/auth?username=admin&password=admin'
+```
+
+Copy the token and send a request to get all current users:
+```
+curl -X GET http://localhost:8000/users -H 'Authorization: Bearer <JWT_TOKEN>
+```
 
 # Contribution
 
