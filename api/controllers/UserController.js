@@ -19,8 +19,8 @@ function get(req, res) {
 
 function create(req, res) {
   User.create({
-    username: req.body.username,
-    password: req.body.password,
+    username: req.query.username,
+    password: req.query.password,
   }, { attributes: { exclude: ['refresh_token'] } }).then((newUser) => {
     res.status(201).json(newUser);
   }).catch((e) => {

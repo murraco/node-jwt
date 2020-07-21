@@ -7,10 +7,10 @@ const User = require('../models/User');
 function authenticate(req, res, next) {
   User.findOne({
     where: {
-      username: req.body.username,
+      username: req.query.username,
     },
   }).then((user) => {
-    if (user && user.comparePassword(req.body.password)) {
+    if (user && user.comparePassword(req.query.password)) {
       req.dbUser = user;
       next();
     } else {
