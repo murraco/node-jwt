@@ -6,7 +6,7 @@ const userCtrl = require('../../api/controllers/UserController');
 
 const router = express.Router();
 const secret = config.jwt.jwtSecret;
-const algorithms = ['RS256'];
+const algorithms = ['HS256'];
 
 router
   .route('/')

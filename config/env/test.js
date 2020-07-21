@@ -4,7 +4,7 @@ module.exports = {
     port: 3306,
     database: 'jwt_test',
     username: 'root',
-    password: 'password',
+    password: 'root',
   },
   jwt: {
     jwtSecret: '$eCrEt',
