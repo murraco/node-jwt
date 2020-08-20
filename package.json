@@ -11,7 +11,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "express-jwt": "^6.0.0",
