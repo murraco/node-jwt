@@ -17,7 +17,7 @@
     "express-jwt": "^6.0.0",
     "express-validation": "^1.0.2",
     "joi": "^13.0.2",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
     "mysql2": "^1.5.1",
     "nodemon": "^2.0.20",
     "sequelize": "^5.22.5",
