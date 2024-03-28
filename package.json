@@ -13,7 +13,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "body-parser": "^1.20.1",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "express-jwt": "^6.0.0",
     "express-validation": "^1.0.2",
     "joi": "^13.0.2",
