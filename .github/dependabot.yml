@@ -6,26 +6,36 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-    open-pull-requests-limit: 5
+    open-pull-requests-limit: 2
     groups:
-      dev-dependencies:
-        dependency-type: "development"
-        update-types: ["minor", "patch"]
-      production-patches:
-        dependency-type: "production"
-        update-types: ["patch"]
+      # One catch-all group: every update type, prod and dev, lands in a single PR
+      # per cycle. The previous split (dev minor+patch / prod patch) left production
+      # minors and all majors ungrouped, and each of those became its own PR --
+      # that was the actual source of the PR flood, not the weekly cadence.
+      all-dependencies:
+        patterns: ["*"]
     ignore:
       # The eslint / eslint-config-airbnb-base pins that used to live here are gone:
-      # Phase 1a dropped airbnb-base entirely for flat-config eslint 10, so eslint
-      # majors are free to flow again.
+      # Phase 1a dropped airbnb-base entirely in favour of flat-config eslint 10, so
+      # eslint majors are free to flow again.
       #
-      # joi is now the constrained one. express-validation 4 declares a peer of
-      # joi ^17.6.0, so a bump to joi 18 reintroduces exactly the class of
-      # `npm ci` peer conflict this repo was just rescued from. Revisit if
-      # express-validation ships joi 18 support, or if the validation layer is
-      # replaced with a hand-rolled joi middleware.
+      # joi is the constrained one now. express-validation 4 declares a peer of
+      # joi ^17.6.0, so a bump to joi 18 reintroduces exactly the class of `npm ci`
+      # peer conflict this repo was just rescued from -- Dependabot already proved
+      # that by merging express-validation 4.1.1 alongside joi 18.2.3 in PR #78.
+      # Revisit if express-validation ships joi 18 support, or if the validation
+      # layer is replaced with a hand-rolled joi middleware.
       - dependency-name: "joi"
         update-types: ["version-update:semver-major"]
 
-# NOTE: no "github-actions" ecosystem block here on purpose. Dependabot errors on every
-# run if that ecosystem is declared while the repo has no .github/workflows/ directory.
+  # Valid as of Phase 1a: .github/workflows/ci.yml now exists. Declaring this ecosystem
+  # with no workflows directory is what made Dependabot error on every run.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 2
+    groups:
+      github-actions:
+        patterns: ["*"]
