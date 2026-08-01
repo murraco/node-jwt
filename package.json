@@ -12,23 +12,23 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "body-parser": "^1.20.6",
-    "express": "^4.22.2",
-    "express-jwt": "^6.0.0",
+    "body-parser": "^2.3.0",
+    "express": "^5.2.1",
+    "express-jwt": "^8.5.1",
     "express-validation": "^4.1.1",
     "joi": "^18.2.3",
     "jsonwebtoken": "^9.0.3",
-    "mysql2": "^3.9.8",
+    "mysql2": "^3.23.2",
     "nodemon": "^3.1.14",
     "sequelize": "^6.37.8",
     "uuid": "^14.0.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^6.2.2",
     "eslint": "^10.8.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.32.0",
-    "mocha": "^10.8.2",
+    "mocha": "^11.7.6",
     "supertest": "^7.2.2",
     "supertest-as-promised": "^4.0.2"
   }
