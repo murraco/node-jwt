@@ -1,8 +1,5 @@
 # Node JWT
 
-![](https://img.shields.io/badge/node-success-brightgreen.svg)
-![](https://img.shields.io/badge/test-success-brightgreen.svg)
-
 # Stack
 
 ![](https://img.shields.io/badge/node_8-✓-blue.svg)

@@ -1,0 +1,35 @@
+version: 2
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
+      production-patches:
+        dependency-type: "production"
+        update-types: ["patch"]
+    ignore:
+      # Pinned until the Phase 1 lint-stack migration lands.
+      # eslint 10 against eslint-config-airbnb-base 15 (peer caps at eslint 8)
+      # is what makes `npm install` fail on a fresh clone today. Letting
+      # Dependabot raise these majors again would re-break the repo.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint-config-airbnb-base"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      github-actions:
+        patterns: ["*"]
