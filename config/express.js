@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { ValidationError } = require('express-validation');
 
 const routes = require('./routes/index');
 
@@ -10,5 +11,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Mount all routes on / path
 app.use('/', routes);
+
+// Without this, a rejected schema or a bad token falls through to Express' default
+// handler and comes back as an HTML stack trace with a 500.
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  if (err instanceof ValidationError) {
+    return res.status(err.statusCode).json({ error: 'Validation failed', details: err.details });
+  }
+
+  // Thrown by express-jwt when the Authorization header is missing, malformed, or the
+  // signature does not verify.
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({ error: 'Invalid or missing token' });
+  }
+
+  return res.status(500).json({ error: err.message });
+});
 
 module.exports = app;

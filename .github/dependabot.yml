@@ -16,8 +16,8 @@ updates:
         patterns: ["*"]
     ignore:
       # The eslint / eslint-config-airbnb-base pins that used to live here are gone:
-      # Phase 1a dropped airbnb-base entirely in favour of flat-config eslint 10, so
-      # eslint majors are free to flow again.
+      # airbnb-base was dropped entirely for flat-config eslint 10, so eslint majors
+      # are free to flow again.
       #
       # joi is the constrained one now. express-validation 4 declares a peer of
       # joi ^17.6.0, so a bump to joi 18 reintroduces exactly the class of `npm ci`
@@ -28,14 +28,5 @@ updates:
       - dependency-name: "joi"
         update-types: ["version-update:semver-major"]
 
-  # Valid as of Phase 1a: .github/workflows/ci.yml now exists. Declaring this ecosystem
-  # with no workflows directory is what made Dependabot error on every run.
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 2
-    groups:
-      github-actions:
-        patterns: ["*"]
+# NOTE: no "github-actions" ecosystem block here on purpose. Dependabot errors on every
+# run if that ecosystem is declared while the repo has no .github/workflows/ directory.
