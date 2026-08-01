@@ -15,13 +15,16 @@ updates:
         dependency-type: "production"
         update-types: ["patch"]
     ignore:
-      # Pinned until the Phase 1 lint-stack migration lands.
-      # eslint 10 against eslint-config-airbnb-base 15 (peer caps at eslint 8)
-      # is what makes `npm install` fail on a fresh clone today. Letting
-      # Dependabot raise these majors again would re-break the repo.
-      - dependency-name: "eslint"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "eslint-config-airbnb-base"
+      # The eslint / eslint-config-airbnb-base pins that used to live here are gone:
+      # Phase 1a dropped airbnb-base entirely for flat-config eslint 10, so eslint
+      # majors are free to flow again.
+      #
+      # joi is now the constrained one. express-validation 4 declares a peer of
+      # joi ^17.6.0, so a bump to joi 18 reintroduces exactly the class of
+      # `npm ci` peer conflict this repo was just rescued from. Revisit if
+      # express-validation ships joi 18 support, or if the validation layer is
+      # replaced with a hand-rolled joi middleware.
+      - dependency-name: "joi"
         update-types: ["version-update:semver-major"]
 
 # NOTE: no "github-actions" ecosystem block here on purpose. Dependabot errors on every

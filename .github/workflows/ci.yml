@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['20', '22']
+
+    # The suite talks to a real MySQL -- without this service every Sequelize test fails
+    # with SequelizeConnectionRefusedError, which is why this repo had no CI at all.
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: jwt_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    env:
+      NODE_ENV: test
+      # 127.0.0.1 rather than localhost: mysql2 resolves "localhost" to a unix socket
+      # that does not exist on the runner.
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_NAME: jwt_test
+      DB_USER: root
+      DB_PASSWORD: root
+      JWT_SECRET: ci-only-throwaway-secret
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      # `npm ci` (not `npm install`) so a peer-dependency conflict fails the build
+      # instead of being silently resolved.
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm test
