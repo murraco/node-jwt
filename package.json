@@ -19,7 +19,7 @@
     "joi": "^18.2.3",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.9.8",
-    "nodemon": "^2.0.20",
+    "nodemon": "^3.1.14",
     "sequelize": "^6.37.8",
     "uuid": "^14.0.1"
   },
