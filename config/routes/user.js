@@ -20,7 +20,7 @@ router
 
 router
   .route('/:userId')
-  .get(requireJWT, userCtrl.get)
+  .get(requireJWT, userCtrl.requireOwnership, userCtrl.get)
   .put(
     requireJWT,
     validate(userValidation.update, { keyByField: true }),
