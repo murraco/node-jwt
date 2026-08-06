@@ -4,7 +4,7 @@
 
 A small JWT authentication service built with Express, Sequelize and MySQL.
 
-# Stack
+## Stack
 
 ![](https://img.shields.io/badge/node_20+-✓-blue.svg)
 ![](https://img.shields.io/badge/express_4-✓-blue.svg)
@@ -12,25 +12,58 @@ A small JWT authentication service built with Express, Sequelize and MySQL.
 ![](https://img.shields.io/badge/joi-✓-blue.svg)
 ![](https://img.shields.io/badge/mocha-✓-blue.svg)
 
-## ⚠️ Breaking changes
+## Introduction (https://jwt.io)
 
-If you are upgrading from an older clone, three things changed:
+I have a great introduction to JWT in one of my other repositories, click [here](https://github.com/murraco/spring-boot-jwt#introduction-httpsjwtio) to take a look!
 
-1. **Credentials moved from the query string to the request body.** `POST /auth` and
-   `POST /users` used to read `?username=…&password=…`. Query strings are recorded in
-   access logs, proxy logs and browser history, so passwords are now read from the JSON
-   body only. A query-string login returns `400`.
-2. **Configuration moved to environment variables.** `config/env/*.js` no longer contains
-   a committed secret. Copy `.env.example` and supply your own. In production the app
-   **throws on startup** if `JWT_SECRET`, `DB_USER` or `DB_PASSWORD` is missing.
-3. **`PUT /users/:userId` only accepts `username`, and only from the account's owner.**
-   It previously wrote the entire request body to the row, and any authenticated user
-   could target any id.
+## File structure
 
-If you have an existing deployment, treat the old `$eCrEt` signing key as compromised —
-it was public in this repository's history. Rotating it invalidates all issued tokens.
+```
+node-jwt/
+│
+├── api/
+│   ├── controllers/
+│   │   ├── AuthController.js
+│   │   └── UserController.js
+│   │
+│   └── models/
+│       └── User.js
+│
+├── config/
+│   ├── env/
+│   │   ├── development.js
+│   │   ├── index.js
+│   │   ├── production.js
+│   │   └── test.js
+│   │
+│   ├── routes/
+│   │   ├── validation/
+│   │   │   ├── auth.js
+│   │   │   └── user.js
+│   │   │
+│   │   ├── auth.js
+│   │   ├── index.js
+│   │   └── user.js
+│   │
+│   ├── express.js
+│   └── sequelize.js
+│
+├── test/
+│   ├── auth.test.js
+│   └── user.test.js
+│
+├── .env.example                  * Template for local configuration
+├── .github/workflows/ci.yml      * Lint + tests on Node 20 and 22 against MySQL 8
+├── .gitignore                    * Example git ignore file
+├── eslint.config.js              * ESLint flat configuration file
+├── index.js                      * Entry point of our Node's app
+├── LICENSE                       * MIT License
+├── package.json                  * Defines our JavaScript dependencies
+├── package-lock.json             * Defines our exact JavaScript dependencies tree
+└── README.md                     * This file
+```
 
-# Quick start
+## Quick start
 
 ```bash
 git clone https://github.com/murraco/node-jwt && cd node-jwt
@@ -61,7 +94,7 @@ npm run lint       # eslint
 Check it is up — `http://localhost:8000/api-status` should return `{ "status": "ok" }`.
 Set `PORT` to use a different port.
 
-# Endpoints
+## Endpoints
 
 | Method | Path | Auth | Body |
 |---|---|---|---|
@@ -110,7 +143,7 @@ curl http://localhost:8000/users -H 'Authorization: Bearer <JWT_TOKEN>'
 Refresh tokens rotate: every issued JWT replaces the stored `refresh_token`, so a given
 `refresh_token` can be redeemed exactly once.
 
-# Configuration
+## Configuration
 
 Every value is read from the environment — see `.env.example`.
 
@@ -131,64 +164,37 @@ Generate a signing key with:
 node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 ```
 
-# Introduction (https://jwt.io)
+## Breaking changes
 
-I have a great introduction to JWT in one of my other repositories, click [here](https://github.com/murraco/spring-boot-jwt#introduction-httpsjwtio) to take a look!
+If you are upgrading from an older clone, three things changed:
 
-# File structure
+1. **Credentials moved from the query string to the request body.** `POST /auth` and
+   `POST /users` used to read `?username=…&password=…`. Query strings are recorded in
+   access logs, proxy logs and browser history, so passwords are now read from the JSON
+   body only. A query-string login returns `400`.
+2. **Configuration moved to environment variables.** `config/env/*.js` no longer contains
+   a committed secret. Copy `.env.example` and supply your own. In production the app
+   **throws on startup** if `JWT_SECRET`, `DB_USER` or `DB_PASSWORD` is missing.
+3. **`PUT /users/:userId` only accepts `username`, and only from the account's owner.**
+   It previously wrote the entire request body to the row, and any authenticated user
+   could target any id.
 
-```
-node-jwt/
-│
-├── api/
-│   ├── controllers/
-│   │   ├── AuthController.js
-│   │   └── UserController.js
-│   │
-│   └── models/
-│       └── User.js
-│
-├── config/
-│   ├── env/
-│   │   ├── development.js
-│   │   ├── index.js
-│   │   ├── production.js
-│   │   └── test.js
-│   │
-│   ├── routes/
-│   │   ├── validation/
-│   │   │   ├── auth.js
-│   │   │   └── user.js
-│   │   │
-│   │   ├── auth.js
-│   │   ├── index.js
-│   │   └── user.js
-│   │
-│   ├── express.js
-│   └── sequelize.js
-│
-├── test/
-│   ├── auth.test.js
-│   └── user.test.js
-│
-├── .env.example                  * Template for local configuration
-├── .github/workflows/ci.yml      * Lint + tests on Node 20 and 22 against MySQL 8
-├── .gitignore                    * Example git ignore file
-├── eslint.config.js              * ESLint flat configuration file
-├── index.js                      * Entry point of our Node's app
-├── LICENSE                       * MIT License
-├── package.json                  * Defines our JavaScript dependencies
-├── package-lock.json             * Defines our exact JavaScript dependencies tree
-└── README.md                     * This file
-```
+If you have an existing deployment, treat the old `$eCrEt` signing key as compromised —
+it was public in this repository's history. Rotating it invalidates all issued tokens.
 
-# Contribution
+## Contribution
 
 - Report issues
 - Open pull request with improvements
 - Spread the word
 - Reach out to me directly at <mauriurraco@gmail.com>
 
-# Buy me a coffee to show your support!
+## License
+
+Released under the [MIT License](LICENSE).
+
+## Support
+
+If this project helped you, consider buying me a coffee ☕️
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/murraco)
