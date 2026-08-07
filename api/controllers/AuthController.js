@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { v1: uuidv1 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const config = require('../../config/env');
 const User = require('../models/User');
@@ -35,7 +35,7 @@ async function generateJWT(req, res, next) {
 
     req.token = jwt.sign(jwtPayload, jwtSecret, jwtData);
     // Sets a new refresh_token every time the jwt is generated
-    await req.dbUser.update({ refresh_token: uuidv1() });
+    await req.dbUser.update({ refresh_token: uuidv4() });
 
     return next();
   } catch (e) {
