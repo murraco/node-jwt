@@ -9,6 +9,17 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// body-parser 2.x leaves req.body as undefined for a request with no body, instead of
+// defaulting it to {} like 1.x did. express-validation only checks req.body against a
+// schema when it's truthy, so an undefined body skips validation entirely and reaches
+// the controllers, which all assume req.body is an object.
+app.use((req, res, next) => {
+  if (req.body === undefined) {
+    req.body = {};
+  }
+  next();
+});
+
 // Mount all routes on / path
 app.use('/', routes);
 

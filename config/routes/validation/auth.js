@@ -15,14 +15,14 @@ module.exports = {
     body: Joi.object({
       username,
       password,
-    }),
+    }).required(),
   },
 
   refreshJWT: {
     body: Joi.object({
       username,
       refresh_token: Joi.string().guid({ version: 'uuidv1' }).required(),
-    }),
+    }).required(),
   },
 
 };
